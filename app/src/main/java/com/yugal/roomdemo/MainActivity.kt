@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         subscriberViewModel = ViewModelProvider(this, factory).get(SubscriberViewModel::class.java)
         binding.myViewModel = subscriberViewModel
         binding.lifecycleOwner = this
-
+        dispalaySubscribersList()
     }
 
     private fun dispalaySubscribersList(){
