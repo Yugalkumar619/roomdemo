@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listItemClick(subscriber : Subscriber){
-        Toast.makeText(this,"Selected anem is ${subscriber.name}",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Selected name is ${subscriber.name}",Toast.LENGTH_LONG).show()
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }

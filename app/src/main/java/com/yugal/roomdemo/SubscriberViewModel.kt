@@ -15,6 +15,9 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
 
     val subscribers = repository.subscribers
 
+    private var isUpdateOrDelete = false
+    private lateinit var subscriberToUpdateOrDelete : Subscriber
+
     val inputName = MutableLiveData<String?>()
 
     val inputEmail = MutableLiveData<String?>()
@@ -38,6 +41,14 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
 
     fun clearAllOrDelete(){
         clearAll()
+    }
+    fun initUpdateAndDelete(subscriber: Subscriber){
+        inputName.value = subscriber.name
+        inputEmail.value = subscriber.email
+        isUpdateOrDelete = true
+        subscriberToUpdateOrDelete = subscriber
+        saveOrUpdateButtonText.value = "Update"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     fun insert(subscriber: Subscriber) : Job = viewModelScope.launch {
