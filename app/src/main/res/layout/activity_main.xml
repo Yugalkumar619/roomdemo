@@ -49,8 +49,9 @@
             android:id="@+id/save_or_update_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()-> myViewModel.saveOrUpdate()}"
+            android:layout_marginRight="2.5dp"
             android:layout_weight="1"
+            android:onClick="@{()-> myViewModel.saveOrUpdate()}"
             android:text="@={myViewModel.saveOrUpdateButtonText}"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -59,6 +60,7 @@
             android:id="@+id/clear_all_or_delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2.5dp"
             android:layout_weight="1"
             android:onClick="@{()->myViewModel.clearAllOrDelete()}"
             android:text="@={myViewModel.clearAllOrDeleteButtonText}"
