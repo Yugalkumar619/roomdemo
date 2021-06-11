@@ -3,11 +3,13 @@ package com.yugal.roomdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yugal.roomdemo.databinding.ActivityMainBinding
+import com.yugal.roomdemo.db.Subscriber
 import com.yugal.roomdemo.db.SubscriberDatabase
 import com.yugal.roomdemo.db.SubscriberRepository
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -35,7 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun dispalaySubscribersList(){
         subscriberViewModel.getSaveSubscribers().observe(this, Observer{
-            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it)
+            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it,{selectedItem: Subscriber-> listItemClick(selectedItem)})
         })
+    }
+
+    private fun listItemClick(subscriber : Subscriber){
+        Toast.makeText(this,"Selected anem is ${subscriber.name}",Toast.LENGTH_LONG).show()
     }
 }
