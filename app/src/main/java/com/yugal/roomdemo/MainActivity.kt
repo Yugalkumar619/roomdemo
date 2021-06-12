@@ -17,6 +17,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var subscriberViewModel: SubscriberViewModel
+    private lateinit var adapter: MyRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +39,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView(){
         binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = MyRecyclerViewAdapter { selectedItem:Subscriber->listItemClick(selectedItem) }
+        binding.subscriberRecyclerView.adapter = adapter
         dispalaySubscribersList()
     }
 
     private fun dispalaySubscribersList(){
         subscriberViewModel.getSaveSubscribers().observe(this, Observer{
-            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it,{selectedItem: Subscriber-> listItemClick(selectedItem)})
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 

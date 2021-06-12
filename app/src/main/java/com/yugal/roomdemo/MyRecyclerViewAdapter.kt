@@ -8,8 +8,10 @@ import com.yugal.roomdemo.databinding.ListItemBinding
 import com.yugal.roomdemo.db.Subscriber
 
 
-class MyRecyclerViewAdapter(private val subscribersList: List<Subscriber>,
-                            private val clickListener:(Subscriber)->Unit) : RecyclerView.Adapter<MyViewHolder>() {
+class MyRecyclerViewAdapter(private val clickListener:(Subscriber)->Unit)
+    : RecyclerView.Adapter<MyViewHolder>() {
+
+    private val subscribersList = ArrayList<Subscriber>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -24,6 +26,11 @@ class MyRecyclerViewAdapter(private val subscribersList: List<Subscriber>,
 
     override fun getItemCount(): Int {
         return subscribersList.size
+    }
+
+    fun setList(subscribers: List<Subscriber>){
+        subscribersList.clear()
+        subscribersList.addAll(subscribers)
     }
 
 }
