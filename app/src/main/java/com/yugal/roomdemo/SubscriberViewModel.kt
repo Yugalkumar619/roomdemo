@@ -1,5 +1,6 @@
 package com.yugal.roomdemo
 
+import android.util.Patterns
 import androidx.lifecycle.*
 import com.yugal.roomdemo.db.Subscriber
 import com.yugal.roomdemo.db.SubscriberRepository
@@ -34,16 +35,25 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
     }
 
     fun saveOrUpdate(){
-        if(isUpdateOrDelete){
-            subscriberToUpdateOrDelete.name = inputName.value!!
-            subscriberToUpdateOrDelete.email = inputEmail.value!!
-            update(subscriberToUpdateOrDelete)
-        }else{
-            val name : String = inputName.value!!
-            val email: String = inputEmail.value!!
-            insert(Subscriber(0,name,email))
-            inputName.value = null
-            inputEmail.value = null
+        if(inputName.value == null){
+            statusMessage.value = Event("Please enter subscriber's name")
+        }else if(inputEmail.value == null){
+            statusMessage.value = com.yugal.roomdemo.Event("Please enter subscriber's email")
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
+            statusMessage.value = Event("Please enter a correct email address")
+        }else {
+
+            if (isUpdateOrDelete) {
+                subscriberToUpdateOrDelete.name = inputName.value!!
+                subscriberToUpdateOrDelete.email = inputEmail.value!!
+                update(subscriberToUpdateOrDelete)
+            } else {
+                val name: String = inputName.value!!
+                val email: String = inputEmail.value!!
+                insert(Subscriber(0, name, email))
+                inputName.value = null
+                inputEmail.value = null
+            }
         }
     }
 
