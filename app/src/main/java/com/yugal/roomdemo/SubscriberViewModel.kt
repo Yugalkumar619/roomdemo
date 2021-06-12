@@ -1,9 +1,6 @@
 package com.yugal.roomdemo
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.yugal.roomdemo.db.Subscriber
 import com.yugal.roomdemo.db.SubscriberRepository
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -25,6 +22,11 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
     val saveOrUpdateButtonText = MutableLiveData<String>()
 
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    val message : LiveData<Event<String>>
+    get() = statusMessage
+
+    private val statusMessage = MutableLiveData<Event<String>>()
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -59,6 +61,7 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
 
     fun insert(subscriber: Subscriber) : Job = viewModelScope.launch {
             repository.insert(subscriber)
+        statusMessage.value = Event("Subscriber Inserted Successfully")
         }
 
     fun update(subscriber: Subscriber) : Job = viewModelScope.launch {
@@ -68,6 +71,7 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("Subscriber Updated Successfully")
     }
     fun delete(subscriber: Subscriber) : Job = viewModelScope.launch {
         repository.delete(subscriber)
@@ -76,6 +80,7 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("Subscriber Deleted Successfully")
     }
 
     fun clearAll(): Job = viewModelScope.launch {
@@ -83,6 +88,7 @@ class SubscriberViewModel(private  val repository: SubscriberRepository) : ViewM
             delete(subscriberToUpdateOrDelete)
         }else{
             repository.deleteAll()
+            statusMessage.value = Event("All Subscriber Deleted Successfully")
         }
     }
 
